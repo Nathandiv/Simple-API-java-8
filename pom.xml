@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Spring Boot 2.7.18 → supports Java 8 (3.x needs Java 17+) -->
+    <!-- Spring Boot 2.7.18 supports Java 8 (3.x needs Java 17+) -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -12,13 +12,13 @@
     </parent>
 
     <groupId>com.example</groupId>
-    <artifactId>simple-Api-java8</artifactId>        <!-- Fixed typo + shows it's Java 8 version -->
+    <artifactId>simple-Api-java8</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>simple-Api-java8</name>
     <description>Minimal Spring Boot API on Java 8</description>
 
     <properties>
-        <java.version>1.8</java.version>            <!-- Critical for Java 8 compilation -->
+        <java.version>1.8</java.version>
     </properties>
 
     <dependencies>
@@ -36,11 +36,18 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+
+        <!-- CHANGE #1: Removed Lombok dependency (you don't use @Data, @Getter, etc.) -->
+        <!-- Lombok was causing the build error in Spring Boot 2.7.x -->
+        <!-- If you need it later, you can add it back with a version -->
+        <!--
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        -->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -50,32 +57,13 @@
 
     <build>
         <plugins>
-            <!-- Lombok annotation processing -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </path>
-                    </annotationProcessorPaths>
-                </configuration>
-            </plugin>
+            <!-- CHANGE #2: COMPLETELY REMOVED maven-compiler-plugin -->
+            <!-- Not needed! Spring Boot 2.7.18 + <java.version>1.8 already configures it correctly -->
 
-            <!-- Creates executable JAR and removes Lombok (smaller JAR) -->
+            <!-- CHANGE #3: Simplified spring-boot-maven-plugin (no excludes needed without Lombok) -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
             </plugin>
         </plugins>
     </build>
