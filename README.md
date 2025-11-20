@@ -1,6 +1,6 @@
 # Step-by-Step Instructions
 
-# 1. Install All Required JDKs (one time only)
+## 1. Install All Required JDKs (one time only)
 in your terminal RUN
 
 sudo apt update
@@ -8,32 +8,32 @@ sudo apt install openjdk-8-jdk openjdk-11-jdk -y
 
 Why? Because Spring Boot 3 needs Java 17+, but we want to support very old systems that only have Java 8 or 11.
 
-# 2. Switch Java Version (do this every time you work on a different version)
+## 2. Switch Java Version (do this every time you work on a different version)
 
 Check current version
 in your terminal RUN
 
 java -version
 
-# Switch to Java 8
+### Switch to Java 8
 in your terminal RUN
 
 sudo update-alternatives --config java   # pick the Java 8 line
 sudo update-alternatives --config javac  # pick the Java 8 line
 
-# Same for Java 11 or back to 21
+#### Same for Java 11 or back to 21
 
-# 3. Make a Clean Copy of Your Original Project
+## 3. Make a Clean Copy of Your Original Project
 
-# Java 8 version
+ Java 8 version
 cp -r ~/Desktop/sipmle-Api ~/Desktop/simple-Api-java8
 cd ~/Desktop/simple-Api-java8
 
-# Java 11 version (do this later)
+### Java 11 version (do this later)
 cp -r ~/Desktop/sipmle-Api ~/Desktop/simple-Api-java11
 
 
-# 4. Replace pom.xml with the Correct One (THE MOST IMPORTANT STEP)
+## 4. Replace pom.xml with the Correct One (THE MOST IMPORTANT STEP)
 For Java 8 – create/replace pom.xml with this exact content:
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -93,7 +93,7 @@ For Java 8 – create/replace pom.xml with this exact content:
 
 For Java 11 – same file, only change these 4 lines:
 
-# 5. Build the JAR
+## 5. Build the JAR
 
 in your Project terminal RUN
 
@@ -101,49 +101,49 @@ in your Project terminal RUN
 
 You will get: target/simple-Api-java8-0.0.1-SNAPSHOT.jar (or java11)
 
-# 6. Test the JAR
+## 6. Test the JAR
 
 java -jar target/simple-Api-java8-0.0.1-SNAPSHOT.jar
 
-# 7. Create Dockerfile (for container)
+## 7. Create Dockerfile (for container)
 Java 8 Dockerfile (create file named exactly Dockerfile):
 
 FROM eclipse-temurin:8-jdk-jammy
 COPY target/simple-Api-java8-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
 
-# Start Docker if it's not running
+### Start Docker if it's not running
 sudo systemctl start docker
 
-# Build image
+### Build image
 docker build -t simple-api-java8 .          # for Java 8
 docker build -t simple-api-java11 .         # for Java 11
 
-# Run (use different ports so they don't clash)
+### Run (use different ports so they don't clash)
 docker run -p 8080:8080 simple-api-java8
 docker run -p 8081:8080 simple-api-java11
 
-# 7. Create Dockerfile (for container)
+## 7. Create Dockerfile (for container)
 Java 8 Dockerfile (create file named exactly Dockerfile):
 
 FROM eclipse-temurin:8-jdk-jammy
 COPY target/simple-Api-java8-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
 
-8. Build & Run Docker Image
+## 8. Build & Run Docker Image
 
-# Start Docker if it's not running
+### Start Docker if it's not running
 sudo systemctl start docker
 
-# Build image
+### Build image
 docker build -t simple-api-java8 .          # for Java 8
 docker build -t simple-api-java11 .         # for Java 11
 
-# Run (use different ports so they don't clash)
+### Run (use different ports so they don't clash)
 docker run -p 8080:8080 simple-api-java8
 docker run -p 8081:8080 simple-api-java11
 
-# COMMON ERRORS & SOLUTIONS
+## COMMON ERRORS & SOLUTIONS
 
 Error: Cannot connect to the Docker daemon at unix:///var/run/docker.sock
 Cause: Docker service not running
